@@ -7,31 +7,37 @@ const Cart = ({ product, decrement, increment, deleteItem }) => {
       {product?.map((val, index) => (
         <div
           key={index}
-          className="flex space-x-10 w-full h-20 border-orange-200 border-b items-center"
+          className="flex  space-x-10 w-full border-orange-200 border-b justify-between items-center px-0 lg:px-24"
         >
-          <img src={val.image} className="w-14 h-10" />
-          <div className="w-80 h-auto line-clamp-1">{val?.title}</div>
-          <div className="flex space-x-2">
-            <div
-              className="cursor-pointer select-none"
-              onClick={() => decrement(val.id)}
-            >
-              -
+          <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 justify-center lg:justify-start items-center lg:w-[600px]">
+            <img
+              src={val.image}
+              className="w-14 h-10 sm:w-28 sm:h-24 mx-auto sm:mx-0"
+            />
+            <div className="h-auto line-clamp-1">{val?.title}</div>
+            <div className="flex space-x-2">
+              <div
+                className="cursor-pointer select-none bg-orange-500 px-3 rounded-sm"
+                onClick={() => decrement(val.id)}
+              >
+                -
+              </div>
+              <p className="font-semibold">{val.qty}</p>
+              <div
+                className="cursor-pointer select-none bg-orange-500 px-3 rounded-sm"
+                onClick={() => increment(val.id)}
+              >
+                +
+              </div>
             </div>
-            <p className="font-semibold">{val.qty}</p>
-            <div
-              className="cursor-pointer select-none"
-              onClick={() => increment(val.id)}
-            >
-              +
-            </div>
+            <p className="font-semibold">${val.price * val.qty}</p>
           </div>
-          <p className="font-semibold">{val.price}</p>
-          <p className="font-semibold">{val.price * val.qty}</p>
-          <FaTrashAlt
-            className="w-5 h-5 bg-red-500 text-white rounded-sm cursor-pointer"
-            onClick={() => deleteItem(val.id)}
-          />
+          <div>
+            <FaTrashAlt
+              className="w-5 h-5 bg-red-500 text-white rounded-sm cursor-pointer"
+              onClick={() => deleteItem(val.id)}
+            />
+          </div>
         </div>
       ))}
       {product.length ? (
