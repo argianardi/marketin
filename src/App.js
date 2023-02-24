@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Cart from "./components/Cart";
 import Header from "./components/Header";
 import Products from "./components/Products";
-import { addToCart, getProducts } from "./utils/redux/cart/productSlice";
+import {
+  deleteItem,
+  addToCart,
+  getProducts,
+  incrementItem,
+  decrementItem,
+} from "./utils/redux/cart/productSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -12,6 +19,9 @@ function App() {
     setIsOpen(!isOpen);
   };
   const addtocart = (id) => dispatch(addToCart(id));
+  const handleDelete = (id) => dispatch(deleteItem(id));
+  const handleIncrement = (id) => dispatch(incrementItem(id));
+  const handleDecrement = (id) => dispatch(decrementItem(id));
 
   useEffect(() => {
     dispatch(getProducts());
@@ -20,7 +30,16 @@ function App() {
   return (
     <>
       <Header cartCount={cart} handleOpen={handleOpen} />
-      <Products products={products} addToCart={addtocart} />
+      {isOpen ? (
+        <Cart
+          product={cart}
+          deleteItem={handleDelete}
+          increment={handleIncrement}
+          decrement={handleDecrement}
+        />
+      ) : (
+        <Products products={products} addToCart={addtocart} />
+      )}
     </>
   );
 }
