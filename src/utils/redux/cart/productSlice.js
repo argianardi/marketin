@@ -25,6 +25,9 @@ const products = createSlice({
       oldItems.push(newItems[0]);
       state.cart = oldItems;
     },
+    deleteItem: (state, action) => {
+      state.cart = state.cart.filter((val) => val.id != action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getProducts.fulfilled, (state, action) => {
@@ -33,5 +36,5 @@ const products = createSlice({
   },
 });
 
-export const { addToCart } = products.actions;
+export const { addToCart, deleteItem } = products.actions;
 export default products.reducer;
