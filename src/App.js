@@ -7,6 +7,8 @@ import {
   deleteItem,
   addToCart,
   getProducts,
+  incrementItem,
+  decrementItem,
 } from "./utils/redux/cart/productSlice";
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
   };
   const addtocart = (id) => dispatch(addToCart(id));
   const handleDelete = (id) => dispatch(deleteItem(id));
+  const handleIncrement = (id) => dispatch(incrementItem(id));
+  const handleDecrement = (id) => dispatch(decrementItem(id));
 
   useEffect(() => {
     dispatch(getProducts());
@@ -27,7 +31,12 @@ function App() {
     <>
       <Header cartCount={cart} handleOpen={handleOpen} />
       {isOpen ? (
-        <Cart product={cart} deleteItem={handleDelete} />
+        <Cart
+          product={cart}
+          deleteItem={handleDelete}
+          increment={handleIncrement}
+          decrement={handleDecrement}
+        />
       ) : (
         <Products products={products} addToCart={addtocart} />
       )}
