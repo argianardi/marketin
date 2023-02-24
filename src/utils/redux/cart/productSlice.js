@@ -14,7 +14,18 @@ const products = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    addToCart: (state, action) => {
+      let oldItems = state.cart.filter((val) => val.id !== action.payload.id);
+      let newItems = state.cart.filter((val) => val.id === action.payload.id);
+      let newQty = newItems.length ? newItems[0]?.qty + 1 : 1;
+      newItems.length
+        ? (newItems[0] = { ...action.payload, qty: newQty })
+        : (newItems = [{ ...action.payload, qty: newQty }]);
+      oldItems.push(newItems[0]);
+      state.cart = oldItems;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getProducts.fulfilled, (state, action) => {
       state.products = action.payload;
@@ -22,4 +33,5 @@ const products = createSlice({
   },
 });
 
+export const { addToCart } = products.actions;
 export default products.reducer;
