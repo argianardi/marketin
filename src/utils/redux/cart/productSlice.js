@@ -28,6 +28,30 @@ const products = createSlice({
     deleteItem: (state, action) => {
       state.cart = state.cart.filter((val) => val.id != action.payload);
     },
+    incrementItem: (state, action) => {
+      state.cart
+        ?.filter((val) => val.id === action.payload)
+        .map((val) => {
+          const currentVal = val.qty;
+          val.qty = currentVal + 1;
+          return val;
+        });
+    },
+    decrementItem: (state, action) => {
+      state.cart
+        ?.filter((val) => val.id === action.payload)
+        .map((val) => {
+          const currentVal = val.qty;
+          if (currentVal === 1) {
+            return (state.cart = state.cart.filter(
+              (val) => val.id != action.payload
+            ));
+          } else {
+            val.qty = currentVal - 1;
+          }
+          return val;
+        });
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getProducts.fulfilled, (state, action) => {
@@ -36,5 +60,6 @@ const products = createSlice({
   },
 });
 
-export const { addToCart, deleteItem } = products.actions;
+export const { addToCart, deleteItem, incrementItem, decrementItem } =
+  products.actions;
 export default products.reducer;
