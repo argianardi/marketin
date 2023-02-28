@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Cart from "./components/Cart";
 import Header from "./components/Header";
+import Loading from "./components/Loading";
 import Products from "./components/Products";
 import {
   deleteItem,
@@ -13,6 +14,9 @@ import {
 
 function App() {
   const dispatch = useDispatch();
+  const getProductsStatus = useSelector(
+    (state) => state.products.getProductsStatus
+  );
   const { products, cart } = useSelector((state) => state.products);
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => {
@@ -37,6 +41,8 @@ function App() {
           increment={handleIncrement}
           decrement={handleDecrement}
         />
+      ) : getProductsStatus === "loading" ? (
+        <Loading />
       ) : (
         <Products products={products} addToCart={addtocart} />
       )}
